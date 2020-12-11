@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         notNull: {msg: "Please enter a book title!"},
-        notEmpty: {msg: "Please be sure to not leave this blank."}
+        notEmpty: {msg: "Please submit a book title!"}
       }
     },
     author: {
@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         notNull: {msg: "Please be sure to enter an author!"},
-        notEmpty: {msg: "Please be sure not to leave this blank!"}
+        notEmpty: {msg: "Please submit an author!"}
       }
     },
     genre: Sequelize.STRING,

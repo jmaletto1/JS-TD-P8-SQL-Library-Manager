@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p
+    a(class="button" href="/books/new") Add a book
+  table
+    thead
+      tr
+        th Title
+        th Author
+        th Genre
+        th Year
+    tbody    
+      each book in allBooks
+        tr
+          td
+            a(href=`books/${book.id}/edit`) #{book.title}
+          td 
+            p= book.author
+          td 
+            p= book.genre
+          td
+            p= book.year
+          
