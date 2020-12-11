@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Book = require('../models').Book;
+const { Op } = require('sequelize');
 
 console.log(Book);
 // Middleware Handler Function
@@ -85,6 +86,53 @@ router.post("/books/:id/delete", asyncHandler(async (req ,res) => {
     })
   );
 
+  // Search Route
+  router.post('/books/search', asyncHandler(async (req, res) => {
+    const search = req.body.search;
+    // console.log(`Value is: `+ search);
+    const allBooks = await Book.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${search}%`
+            }
+          },
+          {
+            author: {
+              [Op.like]: `%${search}%`
+            }
+          },
+          {
+            genre: {
+              [Op.like]: `%${search}%`
+            }
+          },
+          {
+            year: {
+              [Op.like]: `%${search}%`
+            }
+          }
+        ]
+      }
+    });
+    console.log(allBooks.length)
+    
+    if (allBooks.length < 1) {
+      console.log("No matches!");
+      res.render('index', {message: "Unfortunately there are no matches! Why not add a new entry?"});
+    } else {
+      res.render('index', {allBooks, title: "Book List"});
+    }
+  }));
+
+
+  // router.get('/books/search', asyncHandler(async (req, res, next) => {
+  //   const search = req.body
+  //   console.log(search);
+  //   const allBooks = await Book.findAll();
+  //   res.render('index', {allBooks, title: "Book List"});
+  // }));
 
 
 
