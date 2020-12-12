@@ -3,9 +3,7 @@ var router = express.Router();
 const Book = require('../models').Book;
 const { Op } = require('sequelize');
 
-console.log(Book);
 // Middleware Handler Function
-
 function asyncHandler(cb) {
   return async(req, res, next) => {
     try {
@@ -71,7 +69,6 @@ router.post('/books/:id/edit', asyncHandler(async (req, res) => {
       book = await Book.build(req.body);
       book.id = req.params.id;
       res.render("update-book", {book, errors: error.errors})
-      // res.render("new-book", {bookEntry, errors: error.errors, title: "Add a Book!"})
     } else {
     console.log("Didn't work!");
     }
@@ -89,7 +86,6 @@ router.post("/books/:id/delete", asyncHandler(async (req ,res) => {
   // Search Route
   router.post('/books/search', asyncHandler(async (req, res) => {
     const search = req.body.search;
-    // console.log(`Value is: `+ search);
     const allBooks = await Book.findAll({
       where: {
         [Op.or]: [
@@ -122,18 +118,8 @@ router.post("/books/:id/delete", asyncHandler(async (req ,res) => {
       console.log("No matches!");
       res.render('index', {message: "Unfortunately there are no matches! Why not add a new entry?"});
     } else {
-      res.render('index', {allBooks, title: "Book List"});
+      res.render('index', {allBooks, title: "Book List", searchQ: true});
     }
   }));
-
-
-  // router.get('/books/search', asyncHandler(async (req, res, next) => {
-  //   const search = req.body
-  //   console.log(search);
-  //   const allBooks = await Book.findAll();
-  //   res.render('index', {allBooks, title: "Book List"});
-  // }));
-
-
 
 module.exports = router;

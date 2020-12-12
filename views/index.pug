@@ -29,6 +29,10 @@ block content
               p= book.genre
             td
               p= book.year
+  if(searchQ)
+    p
+      a.button(href='/') Return to the Homepage    
+                      
   else
     h1= message  
     p
