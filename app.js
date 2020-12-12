@@ -1,3 +1,4 @@
+// Project Requirements
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,20 +12,6 @@ const {Op} = db.Sequelize;
 (async () => {
   await sequelize.sync()
   try {
-    // const bookById = await Book.create({
-    //   title: "Sherlock Holmes",
-    //   author: "Sir Athur Conan Doyle",
-    //   genre: 'Detective',
-    //   year: 1700
-    // })
-
-    // const bookById = await Book.findByPk(1);
-    // console.log(bookById.toJSON());
-
-    // const allBooks = await Book.findAll();
-    // console.log(allBooks.map(books => books.toJSON()));
-    // await sequelize.authenticate();
-    // console.log('Connection to the database successful!');
   } catch (error) {
     console.error('Error connecting to the database: ', error);
   }
@@ -37,7 +24,7 @@ const book = require('./models/book');
 
 var app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -50,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', userRouter);
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   const err = new Error("Unfortunately you seem to have stumbled on to a page that doesn't exist yet! Please return to the homepage and check out our great collection of books.");
   err.status = 404;

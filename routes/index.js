@@ -1,3 +1,4 @@
+// Import Project Dependencies
 var express = require('express');
 var router = express.Router();
 const Book = require('../models').Book;
@@ -30,7 +31,7 @@ router.get('/books/new', (req, res) => {
   res.render('new-book', {bookEntry: {}, title: "Add a Book!"})
 });
 
-// Create Book Route
+// Create Book Route. This route will provide an error if the Title or Author fields are left blank.
 router.post('/books/new', asyncHandler(async (req, res) => {
   let bookEntry;
   try {
@@ -39,7 +40,6 @@ router.post('/books/new', asyncHandler(async (req, res) => {
   } catch(error) {
     if (error.name === "SequelizeValidationError") {
       bookEntry = await Book.build(req.body);
-      // res.render("new-book", {bookEntry, message: "Oops! You haven't filled out all fields", title: "Add a Book!"})
       res.render("new-book", {bookEntry, errors: error.errors, title: "Add a Book!"})
     } else {
     console.log("Didn't work!");
@@ -53,7 +53,7 @@ router.get('/books/:id/edit', asyncHandler(async (req, res) => {
   res.render('update-book', {book})
 }))
 
-// Update Book Post Method
+// Update Book Post Method. This route will also provide an error if the Title or Author fields are left blank.
 router.post('/books/:id/edit', asyncHandler(async (req, res) => {
   let book;
   try {
@@ -83,7 +83,12 @@ router.post("/books/:id/delete", asyncHandler(async (req ,res) => {
     })
   );
 
-  // Search Route
+  /* Search Route. This post route accepts a search query, which is then matched against the 
+  values in the database using findAll's 'where' keyword. It also uses [Op.like] to find matches
+  that are similar to the search query.
+
+  Finally, if there are no matches, a friendly error message is displayed to the user.
+  */
   router.post('/books/search', asyncHandler(async (req, res) => {
     const search = req.body.search;
     const allBooks = await Book.findAll({
