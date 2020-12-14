@@ -47,16 +47,13 @@ router.get('/books', asyncHandler(async (req, res) => {
     }
   }
 
-  // Page Links Function
+  // Page Links/Buttons Function
   let buttonsArray = [];
   const totalPages = Math.ceil(results / limit);
 
   for (let x=1; x<= totalPages; x++) {
     buttonsArray.push(x)
   }
-
-  // console.log(buttonsArray);
-  // console.log(totalPages)
 
   res.render('index', {allBooks: resultsPush, title: "Book List", page, buttonsArray});
 }));
@@ -121,7 +118,6 @@ router.post("/books/:id/delete", asyncHandler(async (req ,res) => {
   /* Search Route. This post route accepts a search query, which is then matched against the 
   values in the database using findAll's 'where' keyword. It also uses [Op.like] to find matches
   that are similar to the search query.
-
   Finally, if there are no matches, a friendly error message is displayed to the user.
   */
   router.post('/books/search', asyncHandler(async (req, res) => {

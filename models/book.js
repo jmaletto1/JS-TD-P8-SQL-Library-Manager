@@ -1,7 +1,7 @@
 // 'use strict';
 const Sequelize = require('sequelize');
 
-/* Initialise the Book modal, and set the columns to their relevant data type.
+/* Initialise the Book model, and set the columns to their relevant data type.
 Validation checks (and messages) are also provided for the Title and Author columns.
 */
 module.exports = (sequelize) => {
