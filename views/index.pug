@@ -29,15 +29,16 @@ block content
               p= book.genre
             td
               p= book.year
-  if(searchQ)
-    p
-      a.button(href='/') Return to the Homepage    
                       
+  if(buttonsArray)  
+    each link in buttonsArray
+      a.button(href=`/books/?page=${link}`) #{link} 
+
   else
     h1= message  
     p
         a(class="button" href="/books/new") Add a book  
     br
     p
-          a.button(href='/') Return to the Homepage           
+          a.button(href='/') Return to the Homepage     
           

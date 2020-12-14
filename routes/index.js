@@ -17,13 +17,48 @@ function asyncHandler(cb) {
 
 /* Homepage Re-direct */
 router.get('/', asyncHandler(async (req, res) => {
-  res.redirect('/books')
+  res.redirect('/books?page=1')
 }));
 
 // View All Books
 router.get('/books', asyncHandler(async (req, res) => {
   const allBooks = await Book.findAll();
-  res.render('index', {allBooks, title: "Book List"});
+
+  // Pagination Results Function
+  const page = parseFloat(req.query.page);
+  const limit = 5;
+  const results = allBooks.length;
+  let currentpage = 0;
+
+  const startIndex = (page * 5) - 5;
+  const endIndex = (page * 5) - 1;
+
+  let resultsPush = {};
+
+  for (let i=0; i<results; i++) {
+    if (i >= startIndex && i <= endIndex) {
+      resultsPush[i] = {
+        id: allBooks[i].id,
+        title: allBooks[i].dataValues.title,
+        author: allBooks[i].dataValues.author,
+        year: allBooks[i].dataValues.year,
+        genre: allBooks[i].dataValues.genre
+      }
+    }
+  }
+
+  // Page Links Function
+  let buttonsArray = [];
+  const totalPages = Math.ceil(results / limit);
+
+  for (let x=1; x<= totalPages; x++) {
+    buttonsArray.push(x)
+  }
+
+  // console.log(buttonsArray);
+  // console.log(totalPages)
+
+  res.render('index', {allBooks: resultsPush, title: "Book List", page, buttonsArray});
 }));
 
 // Create New Book Page
