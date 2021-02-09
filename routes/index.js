@@ -59,7 +59,7 @@ router.get('/books', asyncHandler(async (req, res) => {
 }));
 
 // Create New Book Page
-router.get('/books/new', (req, res) => {
+router.get('/books/new', (req, res) => {h
   res.render('new-book', {bookEntry: {}, title: "Add a Book!"})
 });
 
